@@ -10,7 +10,7 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO, filename='bot.log')
 
 def keyboard_recomend(bot,update,user_data = {}):
-    mytext= '''Answer some questions: {}
+    mytext= '''Answer some questionsб, please: {}
                Do you like detectives? If answer -YES- press 'A' button.
                If you prefer science fiction press 'B' button.
                If you love storyes fiction press 'C' button.
