@@ -5,7 +5,7 @@ import book_list
 import fiction_list
 import love_book
 import detective
-from keyboard import keyboard_recomend, chat
+from keyboard1 import keyboard_1, keyboard_2, keyboard_3, keyboard_4, chat
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
@@ -37,7 +37,7 @@ def main():
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
     updtr.dispatcher.add_handler(CommandHandler('go', random_recomend, pass_args=True))
-    updtr.dispatcher.add_handler(CommandHandler('key', keyboard_recomend, pass_user_data=True))
+    updtr.dispatcher.add_handler(CommandHandler('key', keyboard_1, pass_user_data=True))
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat, pass_user_data=True))
 
     updtr.start_polling()
