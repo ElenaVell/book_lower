@@ -1,0 +1,6 @@
+*.log
+__pycache__/
+settings.py
+/env/*
+test.py
+keyboard.py
