@@ -1,6 +1,6 @@
 *.log
 __pycache__/
-#.python-version
+.python-version
 settings.py
 /env/*
 *.sqlite
