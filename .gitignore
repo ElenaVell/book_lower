@@ -1,6 +1,8 @@
 *.log
 __pycache__/
+#.python-version
 settings.py
 /env/*
-test.py
-keyboard.py
+*.sqlite
+*.pyc
+*.pyo
