@@ -5,11 +5,12 @@ import fiction_list
 import love_book
 import detective
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
+from db_books import Book
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO, filename='bot.log')
 interview =[{'Answer some questions {}, please:': ['YES', 'NO']}, {'How old are you {}?': ['0-20', '20-30', '30-40','40-50', '50-60', '<50']},
-            {'Are you a man or a women {}?': ['MAN','WOMEN']}, {'What kind of book gener do you prefer?': ['Detective','Thriller', 'Love story', 'Humorous story', 'Modern prose', 'Something else']}]
+            {'Are you a man or a women {}?': ['MAN','WOMEN']}, {'What kind of book gener do you prefer?': ['Detective','Thriller', 'Love story', 'Humorous story', 'Fantasy', 'Something else']}]
 
 def keyboard_1(bot,update,user_data = {}):
     mytext= '''Hello {}, I will recomend you some books. 
@@ -55,7 +56,7 @@ def chat(bot,update,user_data={}):
     text=update.message.text
     logging.info("MSG: {}".format(text))
     if user_data.get('key'):
-        if text == 'NO' or text == 'BAY':
+        if text == 'NO':
             get_answers = user_data.get('answer', [])
             logging.info("for answers: {}".format(get_answers))
             #del user_data['key']
@@ -63,6 +64,7 @@ def chat(bot,update,user_data={}):
             reply_markup= ReplyKeyboardRemove()
             logging.info("remove keyboard")
             text="Result: {}:".format(get_answers)
+            update.message.reply_text('BAY {}!'.format(update.message.chat.first_name), reply_markup=reply_markup)
         else:
             text =  update.message.text
             if text == 'YES':
@@ -83,20 +85,67 @@ def chat(bot,update,user_data={}):
                 user_data['answer']=get_answers
                 get_answers.append(text)
                 logging.info("Answers: {}".format(get_answers))
-            if text == 'Detective' or text == 'Thriller' or text ==  'Love story' or text ==  'Humorous story' or text ==  'Modern prose' or text ==  'Something else':
+            if text == 'Detective' or text == 'Thriller' or text ==  'Love story' or text ==  'Humorous story' or text ==  'Fantasy' or text ==  'Something else':
                 get_answers = user_data.get('answer', [])
                 get_answers.append(text)
                 user_data['answer']=get_answers
-                #update.message.reply_text(random.choice(fiction_list.fiction_list))
                 logging.info("Answers: {}".format(get_answers))
                 get_answers = user_data.get('answer', [])
+                get_answers.append(update.message.chat.id)
                 logging.info("for answers: {}".format(get_answers))
                 reply_markup= ReplyKeyboardRemove()
                 logging.info("remove keyboard")
                 text="Result: {}:".format(get_answers)
-    results=dict(zip(['Age','Gender','Genre_prefer'], get_answers[1:]))
+                #results=dict(zip(['Age','Gender','Genre_prefer'], get_answers[1:]))
+                #results['user_id'] = update.message.chat.id
+                books_from_db = Book
+                b=[]
+                if 'Detective' in get_answers:
+                    books = books_from_db.query.filter(Book.genre == 'Детективы').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+                elif 'Thriller' in get_answers:
+                    books = books_from_db.query.filter(Book.genre == 'Ужасы.Мистика.Триллер').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+                elif 'Love story' in get_answers:
+                    books = books_from_db.query.filter(Book.genre == 'Любовные романы').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+                elif 'Humorous story' in get_answers:
+                    books = books_from_db.query.filter(Book.genre == 'Юмористическая литература').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+                elif 'Fantasy' in get_answers:
+                    books = books_from_db.query.filter(Book.genre == 'Фантастика.Фентези').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+                else:
+                    books = books_from_db.query.filter(Book.genre == 'Бизнес-Книги').all()
+                    for book in books:
+                        b.append(str(book))
+                    update.message.reply_text(random.choice(b), reply_markup=reply_markup)
+                    del user_data['key']
+                    del user_data['answer']
+
+
 
 
     #update.message.reply_text(text, reply_markup=reply_markup)
-    update.message.reply_text(results, reply_markup=reply_markup)
-    print(results)
+    #update.message.reply_text(results, reply_markup=reply_markup)
+   

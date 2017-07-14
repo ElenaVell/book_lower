@@ -18,9 +18,12 @@ def start_bot(bot,update):
     I am a bot and understand {} command
     You can tell me, what was the last book, you like, and I will recomend you the next one.
     Use {} command and the title of book to start.
-    '''.format(update.message.chat.first_name, '/start', '/go')
+    '''.format(update.message.chat.first_name, '/start', '/key')
     logging.info('User{} press /start'.format(update.message.chat.first_name))
+    user_id = update.message.chat.id
     update.message.reply_text(mytext)
+
+
 
 def random_recomend(bot,update,args=None):
     if args is None:
