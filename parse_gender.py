@@ -8,10 +8,14 @@ from test import *
 BASE_URL = "https://www.livelib.ru"
 
 def get_gender(section_url):
-    html = urlopen(section_url).read()
+    resp = urlopen(section_url)
+    html = resp.read()
     soup = BeautifulSoup(html, "html.parser")
     users = []
-    for item in soup.find_all('div', class_='profile-info-column'):
+    profile_info = soup.find_all('div', class_='profile-info-column')
+    if profile_info == []:
+        print(html)
+    for item in profile_info:
         user = {}
         gender = item.select('span')[1]
         user['gender'] = gender.get_text()
