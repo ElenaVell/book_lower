@@ -6,7 +6,7 @@ import fiction_list
 import love_book
 import detective
 from keyboard1 import keyboard_1, keyboard_2, keyboard_3, keyboard_4, chat
-from recomend import *
+#from recomend import *
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
@@ -29,7 +29,7 @@ def main():
     updtr = Updater(settings.TELEGRAM_API_KEY)
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
-    updtr.dispatcher.add_handler(CommandHandler('go', recomend, pass_user_data=True))
+    #updtr.dispatcher.add_handler(CommandHandler('go', recomend, pass_user_data=True))
     updtr.dispatcher.add_handler(CommandHandler('key', keyboard_1, pass_user_data=True))
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat, pass_user_data=True))
 
