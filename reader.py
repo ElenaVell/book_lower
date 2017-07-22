@@ -8,8 +8,11 @@ def get_url(section_url):
     html = urlopen(section_url).read()
     soup = BeautifulSoup(html, "html5lib")
     all = soup.find('a', class_="title")
-    href = all['href']
-    return href
+    if all:
+        href = all['href']
+        return href
+    else:
+        return None
 
 
 def get_review(section_url):
@@ -29,10 +32,19 @@ def get_review(section_url):
     return desc.text
 
 
-book_name = input('Привет! Назови книгу \n').strip()
-changed_name = quote_plus(book_name)
-BASE_URL = "https://www.livelib.ru"
-url_to_find = BASE_URL + '/find/' + changed_name
-book_adress = get_url(url_to_find)
-final_url = BASE_URL + book_adress
-print(get_review(final_url))
+print("Привет!")
+while True:
+    try:
+        book_name = input('Назови книгу :   \n').strip()
+        changed_name = quote_plus(book_name)
+        BASE_URL = "https://www.livelib.ru"
+        url_to_find = BASE_URL + '/find/' + changed_name
+        book_adress = get_url(url_to_find)
+        if book_adress:
+            final_url = BASE_URL + book_adress
+            print(get_review(final_url)) 
+        else:
+            print(" Не получается найти такую книгу(")
+        break
+    except EOFError:
+        print(" Напиши название маленькими буквами!")
