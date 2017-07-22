@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, Float, String, Text, DateTime, ForeignKe
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine('sqlite:///users.sqlite')
+engine = create_engine('sqlite:///users_1.sqlite')
 
 db_session = scoped_session(sessionmaker(bind=engine))
 

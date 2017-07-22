@@ -26,7 +26,7 @@ def get_all(section_url):
         db_session.add(new_user)
     return users
    
-results = get_all('https://www.livelib.ru/readers/~5')
+results = get_all('https://www.livelib.ru/readers')
 db_session.commit()
 print(results)
 
