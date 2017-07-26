@@ -148,4 +148,3 @@ def chat(bot,update,user_data={}):
 
     #update.message.reply_text(text, reply_markup=reply_markup)
     #update.message.reply_text(results, reply_markup=reply_markup)
-   
