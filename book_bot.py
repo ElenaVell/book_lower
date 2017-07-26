@@ -7,7 +7,7 @@ import love_book
 import detective
 from reader import *
 from keyboard1 import *
-#from get_recomend import*
+from get_recomend import*
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 import urllib
@@ -30,13 +30,18 @@ def start_bot(bot,update):
     update.message.reply_text(mytext)
 
 def chat(bot,update,user_data={}):
-   last_command = user_data.get('last_command')
-   if last_command == "key":
-     key_chat(bot,update,user_data = {})
-   elif last_command == "reader":
-     reader_chat(bot,update,user_data = {})
-   else:
-     update.message.reply_text("не задана команда")
+    last_command = user_data.get('last_command')
+    if last_command == "key":
+        key_chat(bot,update,user_data = {})
+    elif last_command == "reader":
+        reader_chat(bot,update,user_data = {})
+    elif last_command == "review":
+        review_chat(bot,update,user_data = {})
+        if review_chat(bot,update,user_data = {}) == None:
+            #get_recomend_by_author(bot,update, user_data = {})
+            get_recomend_by_author_chat(bot,update, user_data = {})
+    else:
+        update.message.reply_text("не задана команда")
 
 
 def main():
@@ -45,7 +50,7 @@ def main():
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
     updtr.dispatcher.add_handler(CommandHandler('reader', reader, pass_user_data=True))
     updtr.dispatcher.add_handler(CommandHandler('key', keyboard_1, pass_user_data=True))
-    #updtr.dispatcher.add_handler(CommandHandler('get', get_recomend, pass_user_data=True)
+    updtr.dispatcher.add_handler(CommandHandler('review', get_recomend, pass_user_data=True))
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat, pass_user_data=True))
 
 
