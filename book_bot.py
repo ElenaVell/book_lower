@@ -5,8 +5,9 @@ import book_list
 import fiction_list
 import love_book
 import detective
-from keyboard1 import keyboard_1, keyboard_2, keyboard_3, keyboard_4, chat
 from reader import *
+from keyboard1 import *
+#from get_recomend import*
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 import urllib
@@ -28,15 +29,24 @@ def start_bot(bot,update):
     user_id = update.message.chat.id
     update.message.reply_text(mytext)
 
+def chat(bot,update,user_data={}):
+   last_command = user_data.get('last_command')
+   if last_command == "key":
+     key_chat(bot,update,user_data = {})
+   elif last_command == "reader":
+     reader_chat(bot,update,user_data = {})
+   else:
+     update.message.reply_text("не задана команда")
+
 
 def main():
     updtr = Updater(settings.TELEGRAM_API_KEY)
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
-    updtr.dispatcher.add_handler(CommandHandler('go', reader, pass_user_data=True))
+    updtr.dispatcher.add_handler(CommandHandler('reader', reader, pass_user_data=True))
     updtr.dispatcher.add_handler(CommandHandler('key', keyboard_1, pass_user_data=True))
+    #updtr.dispatcher.add_handler(CommandHandler('get', get_recomend, pass_user_data=True)
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat, pass_user_data=True))
-    #updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat, pass_user_data=True))
 
 
     updtr.start_polling()
