@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from urllib.parse import quote_plus
 
+'''При вызове команды /reader пользователя просят ввести название книги. Бот выдает рецензию на данную книгу.
+   Рецензии берутся напрямую с сайта www.livelib.ru'''
+
 
 def get_url(section_url):
     html = urlopen(section_url).read()
@@ -53,7 +56,6 @@ def reader_chat(bot,update,user_data={}):
     if book_adress:
         final_url = BASE_URL + book_adress
         if len(get_review(final_url)) > 4000:
-            print(get_review(final_url))
             update.message.reply_text(get_review(final_url)[:4000])
             update.message.reply_text(get_review(final_url)[4000:])
             del user_data['last_command']

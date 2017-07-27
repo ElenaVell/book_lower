@@ -1,4 +1,8 @@
 from db import User, Post
+'''при вызове команды /review дает рекомендацию на основе понравившейся юзеру книги. Бот ищет название
+в списках рецензий пользователей сайта www.livlib.ru и если находит - выдает ссылку на другую книгу, которая
+также понравилась пользователю сайта. Если книга не найдена - у пользователя спрашивается имя любимого автора.
+Если такой автор есть в базе данных - то выдается ссылка на книгу этого автора.'''
 
 def get_recomend(bot,update,user_data = {}):
     user_data['last_command'] = "review"
@@ -22,10 +26,7 @@ def review_chat(bot,update, user_data = {}):
 					update.message.reply_text(book)
 					del user_data['last_command']
 					break
-
-#def get_recomend_by_author(bot,update, user_data = {}):
-    	#mytext = 'Рецензии на данную книгу нет. Введите имя любимого автора: '
-    	#update.message.reply_text(mytext)    
+    
 
 def get_recomend_by_author_chat(bot,update, user_data = {}):
 	mytext = 'Рецензии на данную книгу нет. Введите имя любимого автора: '

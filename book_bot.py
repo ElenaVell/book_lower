@@ -20,11 +20,13 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     )
 
 def start_bot(bot,update):
-    mytext= '''Hi {}!
-    I am a bot and understand {} command
-    You can tell me, what was the last book, you like, and I will recomend you the next one.
-    Use {} command and the title of book to start.
-    '''.format(update.message.chat.first_name, '/start', '/key')
+    mytext= '''Привет {}!
+Я простой Бот и могу помочь тебе с выбором книги. Для того, чтобы найти рецензию на определенную книгу,
+выбери {} команду. Если хочешь найти книгу, похожую на понравившуюся раньше - выбери {} команду.
+Если хочешь почитать что-то совсем иное - выбери {} команду, ответь на несколько простых вопросов и
+получи рекомендацию.
+Используй {} команду, чтобы начать сначала.
+    '''.format(update.message.chat.first_name, '/reader', '/review', '/key', '/start')
     logging.info('User{} press /start'.format(update.message.chat.first_name))
     user_id = update.message.chat.id
     update.message.reply_text(mytext)
@@ -43,11 +45,17 @@ def chat(bot,update,user_data={}):
     else:
         update.message.reply_text("не задана команда")
 
+def help_bot(bot, update):
+    update.message.reply_text("Используй /start для начала работы.")
+    update.message.reply_text("Используй /reader чтобы получить рецензию на понравившуюся книгу.")
+    update.message.reply_text("Используй /review чтобы найти похожую книгу, на ту что понравилась.")
+    update.message.reply_text("Используй /key чтобы получить рекомендацию по жанру.")
 
 def main():
     updtr = Updater(settings.TELEGRAM_API_KEY)
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
+    updtr.dispatcher.add_handler(CommandHandler('help', help_bot))
     updtr.dispatcher.add_handler(CommandHandler('reader', reader, pass_user_data=True))
     updtr.dispatcher.add_handler(CommandHandler('key', keyboard_1, pass_user_data=True))
     updtr.dispatcher.add_handler(CommandHandler('review', get_recomend, pass_user_data=True))

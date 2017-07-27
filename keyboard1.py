@@ -7,6 +7,9 @@ import detective
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from db_books import Book
 
+''' При вызове команды /key пользователю предлагают ответить на несколько вопросов. Потом бот выдает ссылку на
+книгу из базы данных в соответствии с выбранным жанром'''
+
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.INFO, filename='bot.log')
 interview =[{'Answer some questions {}, please:': ['YES', 'NO']}, {'How old are you {}?': ['0-20', '20-30', '30-40','40-50', '50-60', '<50']},
@@ -59,8 +62,6 @@ def key_chat(bot,update,user_data={}):
     if text == 'NO':
         get_answers = user_data.get('answer', [])
         logging.info("for answers: {}".format(get_answers))
-        #del user_data['key']
-        #del user_data['answer']
         reply_markup= ReplyKeyboardRemove()
         logging.info("remove keyboard")
         text="Result: {}:".format(get_answers)
@@ -96,8 +97,6 @@ def key_chat(bot,update,user_data={}):
             reply_markup= ReplyKeyboardRemove()
             logging.info("remove keyboard")
             text="Result: {}:".format(get_answers)
-            #results=dict(zip(['Age','Gender','Genre_prefer'], get_answers[1:]))
-            #results['user_id'] = update.message.chat.id
             books_from_db = Book
             b=[]
             if 'Detective' in get_answers:
